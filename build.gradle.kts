@@ -6,6 +6,7 @@ plugins {
 	kotlin("jvm") version "1.5.21"
 	kotlin("plugin.spring") version "1.5.21"
 	kotlin("plugin.jpa") version "1.5.21"
+	id("com.diffplug.spotless") version "5.15.0"
 }
 
 group = "rgomez"
@@ -14,6 +15,23 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
 	mavenCentral()
+}
+
+spotless {
+	kotlin {
+		ktlint()
+			.userData(
+				mapOf(
+					"insert_final_newline" to "true",
+					"disabled_rules" to "import-ordering",
+					"indent_size" to "2",
+					"continuation_indent_size" to "2"
+				)
+			)
+	}
+	kotlinGradle {
+		ktlint()
+	}
 }
 
 dependencies {
