@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class WhoPaysKotlinApplication
 
 fun main(args: Array<String>) {
-	runApplication<WhoPaysKotlinApplication>(*args)
+  runApplication<WhoPaysKotlinApplication>(*args)
 }

@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test
 
 class RandomTest {
 
-    @Test
-    fun contextLoads() {
-        Assertions.assertTrue(true)
-    }
+  @Test
+  fun contextLoads() {
+    Assertions.assertTrue(true)
+  }
 }
