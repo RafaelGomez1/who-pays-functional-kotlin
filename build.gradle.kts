@@ -81,7 +81,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-gradle-plugin:2.6.1")
 	implementation("org.springframework.boot:spring-boot-starter-web:2.6.1")
 
-	implementation("javax.transaction:javax.transaction-api:1.3")
+	implementation("javax.inject:javax.inject:1")
 
 	// Kotlin && jackson dependencies
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
@@ -96,7 +96,11 @@ dependencies {
 	implementation("org.axonframework:axon-spring-boot-starter:${property("axon-version")}") {
 		exclude(group = "org.axonframework", module = "axon-server-connector")
 	}
+
 	implementation("org.axonframework.extensions.tracing:axon-tracing-spring-boot-starter:4.5.2")
+	implementation("org.axonframework:axon-messaging:${property("axon-version")}")
+	implementation("org.axonframework:axon-configuration:${property("axon-version")}")
+
 
 
 	// Contexts projects
