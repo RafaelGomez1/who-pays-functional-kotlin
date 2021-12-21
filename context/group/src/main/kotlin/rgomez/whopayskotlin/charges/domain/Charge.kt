@@ -13,7 +13,15 @@ sealed class Charge(
     open val payer: MemberId
 ) : Aggregate() {
 
-    data class Debt(debtors: List<MemberId>) : Charge(
+    data class Debt(
+        override val id: ChargeId,
+        override val concept: Concept,
+        override val quantity: Quantity,
+        override val currency: Currency,
+        override val date: Date,
+        override val payer: MemberId,
+        val debtors: List<MemberId>
+    ) : Charge(
         id = id,
         concept = concept,
         quantity = quantity,
@@ -22,7 +30,15 @@ sealed class Charge(
         payer = payer
     )
 
-    data class Repayment(creditor: MemberId) : Charge(
+    data class Repayment(
+        override val id: ChargeId,
+        override val concept: Concept,
+        override val quantity: Quantity,
+        override val currency: Currency,
+        override val date: Date,
+        override val payer: MemberId,
+        val creditor: MemberId
+        ) : Charge(
         id = id,
         concept = concept,
         quantity = quantity,
@@ -55,5 +71,3 @@ value class Currency(val value: String)
 
 @JvmInline
 value class Date(val value: ZonedDateTime)
-
-enum class
