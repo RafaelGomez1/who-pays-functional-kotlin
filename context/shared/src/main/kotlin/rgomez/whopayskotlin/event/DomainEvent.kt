@@ -1,4 +1,4 @@
-package rgomez.whopayskotlin.publisher.domain
+package rgomez.whopayskotlin.event
 
 abstract class DomainEvent(aggregateId: String) {
     private var meta: DomainEventMeta = DomainEventMeta(aggregateId)

@@ -1,4 +1,4 @@
-package rgomez.whopayskotlin.publisher.domain
+package rgomez.whopayskotlin.event
 
 interface AggregateInterface {
     fun pullEvents(): List<DomainEvent>

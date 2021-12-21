@@ -1,4 +1,6 @@
-package rgomez.whopayskotlin.publisher.domain
+package rgomez.whopayskotlin.event.publisher
+
+import rgomez.whopayskotlin.event.DomainEvent
 
 interface DomainEventPublisher {
     fun <E : DomainEvent> publish(event: E)
