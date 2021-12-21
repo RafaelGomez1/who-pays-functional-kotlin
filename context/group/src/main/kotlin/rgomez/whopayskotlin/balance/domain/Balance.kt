@@ -2,9 +2,7 @@ package rgomez.whopayskotlin.balance.domain
 
 import java.time.ZonedDateTime
 import rgomez.whopayskotlin.event.Aggregate
-import rgomez.whopayskotlin.group.domain.Group
 import rgomez.whopayskotlin.group.domain.GroupId
-import rgomez.whopayskotlin.group.domain.GroupName
 import rgomez.whopayskotlin.members.domain.MemberId
 
 data class Balance(
@@ -15,11 +13,10 @@ data class Balance(
 
     companion object {
         fun create(
-            id: GroupId,
-            name: GroupName,
-            members: List<MemberId>
-        ) = Group(id, name, members)
-        // TODO -> add event
+            id: BalanceId,
+            groupId: GroupId,
+            debts: List<Debt>
+        ) = Balance(id, groupId, debts) // TODO -> add event
     }
 }
 
@@ -43,8 +40,6 @@ data class Debt(
     @JvmInline
     value class Date(val value: ZonedDateTime)
 }
-
-
 
 @JvmInline
 value class BalanceId(val value: String) {

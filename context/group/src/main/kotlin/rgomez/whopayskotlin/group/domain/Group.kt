@@ -15,7 +15,7 @@ data class Group(
             name: GroupName,
             members: List<MemberId>
         ) = Group(id, name, members)
-            // TODO -> add event
+        // TODO -> add event
     }
 
     fun Group.pushGroupCreatedEvent(): Nothing = TODO("Not implemented yet")

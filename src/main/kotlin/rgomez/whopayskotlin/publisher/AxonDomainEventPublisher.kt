@@ -8,13 +8,13 @@ import rgomez.whopayskotlin.event.publisher.DomainEventPublisher
 @Component
 class AxonDomainEventPublisher(private val eventGateway: EventGateway) : DomainEventPublisher {
 
-    override fun <T : DomainEvent> publish(event: T) {
-        publish(listOf(event))
-    }
+  override fun <T : DomainEvent> publish(event: T) {
+    publish(listOf(event))
+  }
 
-    override fun <T : DomainEvent> publish(events: List<T>) {
-        if (events.isNotEmpty()) {
-            eventGateway.publish(events)
-        }
+  override fun <T : DomainEvent> publish(events: List<T>) {
+    if (events.isNotEmpty()) {
+      eventGateway.publish(events)
     }
+  }
 }
