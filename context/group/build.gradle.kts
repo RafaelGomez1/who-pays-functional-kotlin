@@ -21,6 +21,7 @@ dependencies {
     implementation("org.axonframework:axon-configuration:${property("axon-version")}")
 
     // Secondary adapter dependencies
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb:2.6.1")
 
     // Common dependencies
     implementation("javax.inject:javax.inject:1")

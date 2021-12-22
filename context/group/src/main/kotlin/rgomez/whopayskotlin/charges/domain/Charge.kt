@@ -66,8 +66,9 @@ value class Quantity(val value: Double)
 @JvmInline
 value class Concept(val value: String)
 
-@JvmInline
-value class Currency(val value: String)
+enum class Currency {
+    EUR
+}
 
 @JvmInline
 value class Date(val value: ZonedDateTime)

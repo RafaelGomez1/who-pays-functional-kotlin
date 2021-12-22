@@ -1,8 +1,8 @@
 package rgomez.whopayskotlin.charges.domain
 
 import arrow.core.Either
-import rgomez.whopayskotlin.charges.domain.create.CreateChargeError
 
 interface ChargeRepository {
-    fun save(charge: Charge): Either<CreateChargeError, Unit>
+    fun save(charge: Charge): Either<Throwable, Unit>
+    fun findBy(id: ChargeId): Either<Throwable, Charge>
 }
