@@ -1,15 +1,19 @@
 package rgomez.whopayskotlin.charges.infrastructure.secondaryadapter
 
+import java.math.BigDecimal
 import java.time.ZonedDateTime
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import rgomez.whopayskotlin.charges.domain.Charge
 import rgomez.whopayskotlin.charges.domain.ChargeId
 import rgomez.whopayskotlin.charges.domain.Concept
-import rgomez.whopayskotlin.charges.domain.Currency
+import rgomez.whopayskotlin.charges.domain.Creditor
 import rgomez.whopayskotlin.charges.domain.Date
-import rgomez.whopayskotlin.charges.domain.Quantity
-import rgomez.whopayskotlin.members.domain.MemberId
+import rgomez.whopayskotlin.charges.domain.Debt
+import rgomez.whopayskotlin.charges.domain.Debtor
+import rgomez.whopayskotlin.charges.domain.Money
+import rgomez.whopayskotlin.charges.domain.Payer
+import rgomez.whopayskotlin.charges.domain.Repayment
 
 @Document(collection = "groups")
 data class JpaCharge(
@@ -17,7 +21,7 @@ data class JpaCharge(
     @Id
     val id: String,
     val concept: String,
-    val quantity: Double,
+    val quantity: BigDecimal,
     val currency: String,
     val date: ZonedDateTime,
     val payer: String,
@@ -29,24 +33,22 @@ data class JpaCharge(
     fun toCharge() =
         when (Type.valueOf(type)) {
             Type.DEBT ->
-                Charge.Debt(
+                Debt(
                     id = ChargeId(value = id),
                     concept = Concept(value = concept),
-                    quantity = Quantity(value = quantity),
-                    currency = Currency.valueOf(currency),
+                    amount = Money(amount = quantity, currency = Money.Currency.valueOf(currency)),
                     date = Date(value = date),
-                    payer = MemberId(value = payer),
-                    debtors = debtors.map { MemberId(it) }
+                    payer = Payer(value = payer),
+                    debtors = debtors.map { Debtor(it) }
                 )
             Type.REPAYMENT ->
-                Charge.Repayment(
+                Repayment(
                     id = ChargeId(value = id),
                     concept = Concept(value = concept),
-                    quantity = Quantity(value = quantity),
-                    currency = Currency.valueOf(currency),
+                    amount = Money(amount = quantity, currency = Money.Currency.valueOf(currency)),
                     date = Date(value = date),
-                    payer = MemberId(value = payer),
-                    creditor = MemberId(value = creditor)
+                    payer = Payer(value = payer),
+                    creditor = Creditor(value = creditor)
                 )
         }
 
@@ -58,8 +60,8 @@ data class JpaCharge(
 internal fun Charge.toJpaCharge() = JpaCharge(
     id = id.value,
     concept = concept.value,
-    quantity = quantity.value,
-    currency = currency.name,
+    quantity = amount.amount,
+    currency = amount.currency.name,
     date = date.value,
     payer = payer.value,
     type = this.findType().name,
@@ -69,20 +71,18 @@ internal fun Charge.toJpaCharge() = JpaCharge(
 
 private fun Charge.findType(): JpaCharge.Type =
     when(this) {
-        is Charge.Repayment -> JpaCharge.Type.REPAYMENT
-        is Charge.Debt -> JpaCharge.Type.DEBT
+        is Repayment -> JpaCharge.Type.REPAYMENT
+        is Debt -> JpaCharge.Type.DEBT
     }
 
 private fun Charge.findDebtor(): List<String> =
     when(this) {
-        is Charge.Repayment -> emptyList()
-        is Charge.Debt -> debtors.map { it.value }
+        is Repayment -> emptyList()
+        is Debt -> debtors.map { it.value }
     }
 
-private fun Charge.findCreditor(): MemberId =
+private fun Charge.findCreditor(): Creditor =
     when(this) {
-        is Charge.Repayment -> this.creditor
-        is Charge.Debt -> MemberId("")
+        is Repayment -> this.creditor
+        is Debt -> Creditor.empty()
     }
-
-
